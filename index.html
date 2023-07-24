@@ -14,26 +14,28 @@
             <div class="error">
               <center><p>Invalid city</p>  </center>  
             </div>
-        <input type="text" placeholder="Enter city name" value=""
-        spellcheck="false">
-        <button> <img src="images/search.png"</button>
-    </div>
+                <input type="text" placeholder="Enter city name" value=""
+                spellcheck="false">
+                <button><img src="images/search.png"></button>
+            </div>
         <div id="change" class="weather">
             <img src="images/rain.png" class="weather-icon">
-            <h1 class="temp">24°C</h1>
-            <h2 class="city">Gajraula</h2>
+
+             <button  ondblclick="changetemp()" id= "tempchange" class="temp"></button>
+           
+            <h2 class="city"></h2>
             <div class="details">
                 <div class="col">
                     <img src="images/humidity.png">
                     <div>
-                    <p class="humidity">50% </p>
+                    <p class="humidity"></p>
                     <p>Hymidity</p>
                         </div>
                         </div>
                         <div class ="col">
                             <img src="images/wind.png">
                             <div>
-                                <p class="wind">15km/h</p>
+                                <p class="wind"></p>
                                 <p>Wind Speed</p>
                             </div>
                         </div>
@@ -44,16 +46,19 @@
 
 
 <script>
-
+    let celsius;
 const apikey="4733a21b8144f2480f062e883113d74b";
 const apiurl="https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
 const weathericon=document.querySelector(".weather-icon");
 const searchbox=document.querySelector(".search input");
 const searchbtn=document.querySelector(".search button");
+
+
 async function chechWeather(city){
 
-    const response=await fetch(apiurl+ city +`&appid=${apikey}`);
-    var data=await response.json();
+   
+const response=await fetch(apiurl+ city +`&appid=${apikey}`);
+var data=await response.json();
   
 if(response.status==404){
     document.querySelector(".error").style.display="block";
@@ -61,6 +66,7 @@ if(response.status==404){
 }
 else
  {
+celsius=Math.round(data.main.temp);
     
 document.querySelector(".error").style.display="none";
 document.querySelector(".city").innerHTML=data.name;
@@ -97,7 +103,42 @@ searchbtn.addEventListener("click",()=>{
     document.querySelector(".weather").style.display="block";
     // document.querySelector(".weather").style.display="none";
 chechWeather(searchbox.value);
+
+
+
+
+
+
+
 })
+
+
+let fahrenheit=0;
+let t=0;
+async function changetemp(){
+    // document.querySelector(".temp").innerHTML=
+
+
+
+    // const celsius=Math.round(data.main.temp)+"°C";
+    document.querySelector(".temp").innerHTML=Math.round(fahrenheit)+"°F";
+    if(!t)
+    {
+    fahrenheit = (celsius * (9 / 5)) + 32;
+    document.querySelector(".temp").innerHTML=Math.round(fahrenheit)+"°F";
+    console.log(fahrenheit);
+    t++;
+    }
+    else
+    {  
+        console.log(t);
+        // celsius = (fahrenheit - 32) * 5/9;
+        document.querySelector(".temp").innerHTML=Math.round(celsius)+"°C";
+        t--;
+    }
+}
+
+
 </script>
 
 </body>
